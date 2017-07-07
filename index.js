@@ -12,6 +12,12 @@ const argv = minimist(process.argv.slice(2), {
   }
 })
 
+parse(argv, (parsed) => {
+  var srcDist = path.resolve(__dirname, 'node_modules/swagger-ui-dist')
+  buildDist(srcDist, parsed.dest, parsed.swaggerFile)
+  console.log('created statcic swagger site in', argv.dest)
+})
+
 function parse (argv, callback) {
 
   if (argv.help) help(0)
@@ -36,12 +42,6 @@ function parse (argv, callback) {
   }
 }
 
-parse(argv, (parsed) => {
-  var srcDist = path.resolve(__dirname, 'node_modules/swagger-ui-dist')
-  buildDist(srcDist, parsed.dest, parsed.swaggerFile)
-  console.log('created statcic swagger site in', argv.dest)
-})
-
 function buildDist(srcDist, dest, swaggerFile) {
 
   if (!fs.existsSync(dest)) {
@@ -63,16 +63,16 @@ function buildDist(srcDist, dest, swaggerFile) {
   fs.writeFileSync(path.resolve(dest, 'index.html'), newHTML, 'utf8')
 
   var unwantedFiles = ['.npmignore', 'package.json', 'README.md']
-  cleanDist(dest, unwatedFiles)
+  cleanDir(dest, unwantedFiles)
 }
 
-function cleanDist(dist, files) {
+function cleanDir(dir, files) {
   files.forEach(function(file) {
     try {
-      fs.removeSync(path.resolve(dist, file))
+      fs.removeSync(path.resolve(dir, file))
     }
     catch (e) {
-      console.log('warning: couldn\'t clean file ', path.resolve(dist, file))
+      console.log('warning: couldn\'t clean file ', path.resolve(dir, file))
     }
   })
 }
@@ -80,4 +80,9 @@ function cleanDist(dist, files) {
 function help (code) {
   console.log(fs.readFileSync(path.resolve(__dirname, './help.txt'), 'utf8'))
   process.exit(code)
+}
+
+module.exports = {
+  buildDist,
+  cleanDir
 }
