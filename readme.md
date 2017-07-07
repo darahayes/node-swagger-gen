@@ -32,3 +32,11 @@ curl http://petstore.swagger.io/v2/swagger.json | swagger-gen
 ## How does it work?
 
 This module bundles up the [swagger-ui-dist](npm/im/static-swagger-dist) and makes a few tweaks in the `index.html` file to include the data from your `swagger.json` file.
+
+## Acknowledgements
+
+This project is kindly sponsored by [nearForm](http://nearform.com)
+
+## License
+
+MIT
