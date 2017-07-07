@@ -7,12 +7,14 @@ const minimist = require('minimist')
 const argv = minimist(process.argv.slice(2), {
   alias: {
     'url': ['baseUrl', 'u'],
-    'dest': ['d']
+    'dest': ['d'],
+    'help': 'h'
   }
 })
 
 function parse (argv, callback) {
-  console.log(argv)
+
+  if (argv.help) help(0)
 
   argv.dest = path.resolve(process.cwd(), argv.dest || 'swagger-dist')
 

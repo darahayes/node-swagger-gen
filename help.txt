@@ -1,0 +1,8 @@
+NAME
+    swagger-gen - Input your `swagger.json` and generate a static swagger UI.
+
+USAGE
+    swagger-gen swagger.json
+
+USAGE WITH PIPES
+    cat swagger.json | swagger-gen
