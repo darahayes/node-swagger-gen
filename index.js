@@ -31,12 +31,10 @@ function parse (argv, callback) {
     process.stdin.setEncoding('utf8')
     process.stdin.on('data', function (chunk) { pipe += chunk })
     process.stdin.on('end', function () {
-      console.log('end')
       argv.swaggerFile = JSON.parse(pipe.trim())
       return callback(argv)
     })
-  }
-  else {
+  } else {
     console.error('Missing swagger JSON file')
     help(1)
   }
