@@ -1,0 +1,22 @@
+<script src="./swagger-ui-standalone-preset.js"> </script>
+<script src='./swagger-json.js' type="text/javascript"></script>
+<script>
+window.onload = function() {
+
+  // Build a system
+  const ui = SwaggerUIBundle({
+    spec: swaggerJSON,
+    dom_id: '#swagger-ui',
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIStandalonePreset
+    ],
+    plugins: [
+      SwaggerUIBundle.plugins.DownloadUrl
+    ],
+    layout: "StandaloneLayout"
+  })
+
+  window.ui = ui
+}
+</script>
