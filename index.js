@@ -7,7 +7,7 @@ const minimist = require('minimist')
 const argv = minimist(process.argv.slice(2), {
   alias: {
     'url': ['baseUrl', 'u'],
-    'dest': ['d'],
+    'dest': ['d', 'o'],
     'help': 'h'
   }
 })
@@ -15,7 +15,7 @@ const argv = minimist(process.argv.slice(2), {
 parse(argv, (parsed) => {
   var srcDist = path.resolve(__dirname, 'node_modules/swagger-ui-dist')
   buildDist(srcDist, parsed.dest, parsed.swaggerFile)
-  console.log('created statcic swagger site in', argv.dest)
+  console.log('created static swagger site in', argv.dest)
 })
 
 function parse (argv, callback) {
@@ -24,20 +24,21 @@ function parse (argv, callback) {
 
   argv.dest = path.resolve(process.cwd(), argv.dest || 'swagger-dist')
 
-  if (process.stdin.isTTY) {
+  if (argv._[0]) {
     if (!argv._[0]) {
       console.error('Missing swagger JSON file')
       help(1)
     }
     argv.swaggerFile = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), argv._[0]), 'utf8'))
     callback(argv)
-  } else {
+  } else if (!process.stdin.isTTY) {
     var pipe = ''
     process.stdin.setEncoding('utf8')
-    process.stdin.on('data', (chunk) => { pipe += chunk })
-    process.stdin.on('end', () => {
-      argv.swaggerFile = JSON.parse(pipe.trim())
-      return callback(argv)
+    process.stdin.on('data', function (chunk) { pipe += chunk })
+    process.stdin.on('end', function () {
+    console.log('end')
+    argv.swaggerFile = JSON.parse(pipe.trim())
+    return callback(argv)
     })
   }
 }
@@ -56,7 +57,7 @@ function buildDist(srcDist, dest, swaggerFile) {
 
   var swaggerJSONScript = 'var swaggerJSON = ' + JSON.stringify(swaggerFile)
   var currentHTML = fs.readFileSync(path.resolve(dest, 'index.html'), 'utf8')
-  var replacementHTML = fs.readFileSync(path.resolve(__dirname, 'data', 'ui.html'))
+  var replacementHTML = fs.readFileSync(path.resolve(__dirname, 'html', 'ui.html'))
   var newHTML = currentHTML.replace(/(<script>\nwindow.onload = function\(\) \{[.\s\S]*<\/script>)/, replacementHTML)
   
   fs.writeFileSync(path.resolve(dest, 'swagger-json.js'), swaggerJSONScript, 'utf8')
@@ -83,6 +84,6 @@ function help (code) {
 }
 
 module.exports = {
-  buildDist,
-  cleanDir
+  buildDist: buildDist,
+  cleanDir: cleanDir
 }
