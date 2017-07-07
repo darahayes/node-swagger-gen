@@ -1,6 +1,6 @@
 {
   "name": "swagger-gen",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Input your swagger.json and generate a static swagger UI.",
   "main": "index.js",
   "repository": {
