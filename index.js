@@ -19,7 +19,6 @@ parse(argv, (parsed) => {
 })
 
 function parse (argv, callback) {
-
   if (argv.help) help(0)
 
   argv.dest = path.resolve(process.cwd(), argv.dest || 'swagger-dist')
@@ -36,19 +35,17 @@ function parse (argv, callback) {
     process.stdin.setEncoding('utf8')
     process.stdin.on('data', function (chunk) { pipe += chunk })
     process.stdin.on('end', function () {
-    console.log('end')
-    argv.swaggerFile = JSON.parse(pipe.trim())
-    return callback(argv)
+      console.log('end')
+      argv.swaggerFile = JSON.parse(pipe.trim())
+      return callback(argv)
     })
   }
 }
 
-function buildDist(srcDist, dest, swaggerFile) {
-
+function buildDist (srcDist, dest, swaggerFile) {
   if (!fs.existsSync(dest)) {
     fs.mkdirSync(dest)
-  }
-  else if (fs.lstatSync(dest).isFile()) {
+  } else if (fs.lstatSync(dest).isFile()) {
     console.error('A file ' + dest + ' already exists')
     process.exit(1)
   }
@@ -59,7 +56,7 @@ function buildDist(srcDist, dest, swaggerFile) {
   var currentHTML = fs.readFileSync(path.resolve(dest, 'index.html'), 'utf8')
   var replacementHTML = fs.readFileSync(path.resolve(__dirname, 'html', 'ui.html'))
   var newHTML = currentHTML.replace(/(<script>\nwindow.onload = function\(\) \{[.\s\S]*<\/script>)/, replacementHTML)
-  
+
   fs.writeFileSync(path.resolve(dest, 'swagger-json.js'), swaggerJSONScript, 'utf8')
   fs.writeFileSync(path.resolve(dest, 'index.html'), newHTML, 'utf8')
 
@@ -67,12 +64,11 @@ function buildDist(srcDist, dest, swaggerFile) {
   cleanDir(dest, unwantedFiles)
 }
 
-function cleanDir(dir, files) {
-  files.forEach(function(file) {
+function cleanDir (dir, files) {
+  files.forEach(function (file) {
     try {
       fs.removeSync(path.resolve(dir, file))
-    }
-    catch (e) {
+    } catch (e) {
       console.log('warning: couldn\'t clean file ', path.resolve(dir, file))
     }
   })
