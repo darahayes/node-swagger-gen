@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "Create a static swagger ui for your API",
   "main": "index.js",
+  "bin": {
+    "swagger-gen": "index.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tape test/test.js"
   },
   "author": "Dara Hayes",
   "license": "MIT",
@@ -12,5 +15,9 @@
     "fs-extra": "^3.0.1",
     "minimist": "^1.2.0",
     "swagger-ui-dist": "^3.0.17"
+  },
+  "devDependencies": {
+  "standard": "^10.0.2",
+  "tape": "^4.7.0"
   }
 }
