@@ -5,7 +5,7 @@
 
 Input your `swagger.json` and generate a static swagger UI. It's the official Swagger UI and you can host it anywhere you like.
 
-### Usage
+## Usage
 
 ```
 $ npm install -g swagger-gen
@@ -24,6 +24,8 @@ You can also pipe the swagger JSON into `swagger-gen` if you wish e.g.
 ```
 curl http://petstore.swagger.io/v2/swagger.json | swagger-gen
 ```
+
+## Demo
 
 ![gif-demo](http://g.recordit.co/FtEJ2yqjFc.gif)
 
