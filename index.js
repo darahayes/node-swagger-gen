@@ -24,10 +24,6 @@ function parse (argv, callback) {
   argv.dest = path.resolve(process.cwd(), argv.dest || 'swagger-dist')
 
   if (argv._[0]) {
-    if (!argv._[0]) {
-      console.error('Missing swagger JSON file')
-      help(1)
-    }
     argv.swaggerFile = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), argv._[0]), 'utf8'))
     callback(argv)
   } else if (!process.stdin.isTTY) {
@@ -39,6 +35,10 @@ function parse (argv, callback) {
       argv.swaggerFile = JSON.parse(pipe.trim())
       return callback(argv)
     })
+  }
+  else {
+    console.error('Missing swagger JSON file')
+    help(1)
   }
 }
 
@@ -77,9 +77,4 @@ function cleanDir (dir, files) {
 function help (code) {
   console.log(fs.readFileSync(path.resolve(__dirname, './help.txt'), 'utf8'))
   process.exit(code)
-}
-
-module.exports = {
-  buildDist: buildDist,
-  cleanDir: cleanDir
 }
