@@ -27,7 +27,7 @@ curl http://petstore.swagger.io/v2/swagger.json | swagger-gen
 
 ## Demo
 
-![gif-demo](http://g.recordit.co/FtEJ2yqjFc.gif)
+![gif-demo](http://g.recordit.co/ds1ku3bbus.gif)
 
 ## How does it work?
 
