@@ -1,13 +1,18 @@
 {
   "name": "swagger-gen",
   "version": "1.0.0",
-  "description": "Create a static swagger ui for your API",
+  "description": "Input your swagger.json and generate a static swagger UI.",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darahayes/node-swagger-gen.git"
+  },
   "bin": {
     "swagger-gen": "index.js"
   },
   "scripts": {
-    "test": "tape test/test.js"
+    "lint": "standard",
+    "test": "npm run lint && tape test/test.js"
   },
   "author": "Dara Hayes",
   "license": "MIT",
@@ -17,7 +22,16 @@
     "swagger-ui-dist": "^3.0.17"
   },
   "devDependencies": {
-  "standard": "^10.0.2",
-  "tape": "^4.7.0"
-  }
+    "standard": "^10.0.2",
+    "tape": "^4.7.0"
+  },
+  "keywords": [
+    "swagger",
+    "swagger-ui",
+    "swagger-ui-dist",
+    "hapi-swagger",
+    "static",
+    "API",
+    "OpenAPI"
+  ]
 }
