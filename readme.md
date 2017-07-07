@@ -1,14 +1,31 @@
 # swagger-ui-gen
 
-Input your `swagger.json` and generate a static swagger UI.
+[![CircleCI](https://circleci.com/gh/darahayes/node-swagger-gen.svg?style=svg)](https://circleci.com/gh/darahayes/node-swagger-gen)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
+Input your `swagger.json` and generate a static swagger UI. It's the official Swagger UI and you can host it anywhere you like.
+
+### Usage
 
 ```
-npm install -g swagger-gen
+$ npm install -g swagger-gen
 
-swagger-gen swagger.json
+$ swagger-gen swagger.json
 ```
 
-This results in a static version of the official swagger UI. You can host it anywhere you like.
+By default the site will be generated in `./swagger-dist` but you can specify a different destination with `-d`
+
+```
+swagger-gen -d my-swagger-site swagger.json
+```
+
+You can also pipe the swagger JSON into `swagger-gen` if you wish e.g.
+
+```
+curl http://petstore.swagger.io/v2/swagger.json | swagger-gen
+```
+
+![gif-demo](http://g.recordit.co/FtEJ2yqjFc.gif)
 
 ## How does it work?
 
