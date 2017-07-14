@@ -13,7 +13,7 @@ const argv = minimist(process.argv.slice(2), {
 })
 
 parse(argv, (parsed) => {
-  var srcDist = path.resolve(__dirname, 'node_modules/swagger-ui-dist')
+  var srcDist = path.dirname(require.resolve('swagger-ui-dist'))
   buildDist(srcDist, parsed.dest, parsed.swaggerFile)
   console.log('created static swagger site in', argv.dest)
 })
