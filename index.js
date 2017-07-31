@@ -18,8 +18,6 @@ const argv = minimist(process.argv.slice(2), {
   }
 })
 
-console.log(argv)
-
 parse(argv, (parsed) => {
   var srcDist = path.dirname(require.resolve('swagger-ui-dist'))
   var opts = {
