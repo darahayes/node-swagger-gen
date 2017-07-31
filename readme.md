@@ -25,6 +25,12 @@ You can also pipe the swagger JSON into `swagger-gen` if you wish e.g.
 curl http://petstore.swagger.io/v2/swagger.json | swagger-gen
 ```
 
+Lastly, you can choose to hide the 'Try it out' buttons provided by the Swagger UI using `--no-try-out`
+
+```
+swagger-gen swagger.json --no-try-out
+```
+
 ## Demo
 
 ![gif-demo](http://g.recordit.co/ds1ku3bbus.gif)

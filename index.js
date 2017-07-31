@@ -67,7 +67,6 @@ function buildDist (srcDist, dest, swaggerFile, opts) {
   var newHTML = currentHTML.replace(/(<script>\nwindow.onload = function\(\) \{[.\s\S]*<\/script>)/, replacementHTML)
 
   if (!opts.tryOut) {
-    console.log('--no-try-out option enabled. Adding custom css to remove try out buttons')
     var meta = newHTML.match(/<head>([\s\S]*)<\/head>/)[1]
     var noButtonHTML = fs.readFileSync(path.resolve(__dirname, 'html', 'no-try-out-button.html'))
     newHTML = newHTML.replace(meta, meta + '\n' + noButtonHTML + '\n')
