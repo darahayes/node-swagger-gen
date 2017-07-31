@@ -9,12 +9,23 @@ const argv = minimist(process.argv.slice(2), {
     'url': ['baseUrl', 'u'],
     'dest': ['d', 'o'],
     'help': 'h'
+  },
+  boolean: [
+    'try-out'
+  ],
+  default: {
+    'try-out': true
   }
 })
 
+console.log(argv)
+
 parse(argv, (parsed) => {
   var srcDist = path.dirname(require.resolve('swagger-ui-dist'))
-  buildDist(srcDist, parsed.dest, parsed.swaggerFile)
+  var opts = {
+    tryOut: parsed['try-out']
+  }
+  buildDist(srcDist, parsed.dest, parsed.swaggerFile, opts)
   console.log('created static swagger site in', argv.dest)
 })
 
@@ -40,7 +51,7 @@ function parse (argv, callback) {
   }
 }
 
-function buildDist (srcDist, dest, swaggerFile) {
+function buildDist (srcDist, dest, swaggerFile, opts) {
   if (!fs.existsSync(dest)) {
     fs.mkdirSync(dest)
   } else if (fs.lstatSync(dest).isFile()) {
@@ -52,8 +63,15 @@ function buildDist (srcDist, dest, swaggerFile) {
 
   var swaggerJSONScript = 'var swaggerJSON = ' + JSON.stringify(swaggerFile)
   var currentHTML = fs.readFileSync(path.resolve(dest, 'index.html'), 'utf8')
-  var replacementHTML = fs.readFileSync(path.resolve(__dirname, 'html', 'ui.html'))
+  var replacementHTML = fs.readFileSync(path.resolve(__dirname, 'html', 'ui.html'), 'utf8')
   var newHTML = currentHTML.replace(/(<script>\nwindow.onload = function\(\) \{[.\s\S]*<\/script>)/, replacementHTML)
+
+  if (!opts.tryOut) {
+    console.log('--no-try-out option enabled. Adding custom css to remove try out buttons')
+    var meta = newHTML.match(/<head>([\s\S]*)<\/head>/)[1]
+    var noButtonHTML = fs.readFileSync(path.resolve(__dirname, 'html', 'no-try-out-button.html'))
+    newHTML = newHTML.replace(meta, meta + '\n' + noButtonHTML + '\n')
+  }
 
   fs.writeFileSync(path.resolve(dest, 'swagger-json.js'), swaggerJSONScript, 'utf8')
   fs.writeFileSync(path.resolve(dest, 'index.html'), newHTML, 'utf8')

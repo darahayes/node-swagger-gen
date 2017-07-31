@@ -12,7 +12,8 @@ var defaultIndex = path.resolve(defaultDist, 'index.html')
 var customDist = path.resolve(__dirname, 'custom-dist')
 var customIndex = path.resolve(customDist, 'index.html')
 
-var ui = fs.readFileSync(path.resolve(__dirname, '../html/ui.html'))
+var ui = fs.readFileSync(path.resolve(__dirname, '../html/ui.html'), 'utf8')
+var noTryMarkup = fs.readFileSync(path.resolve(__dirname, '../html/no-try-out-button.html'), 'utf8')
 
 tape.test('swaggergen creates a new dist and exits with code 0', function (t) {
   t.plan(4)
@@ -24,6 +25,22 @@ tape.test('swaggergen creates a new dist and exits with code 0', function (t) {
     t.ok(fs.existsSync(defaultDist))
     t.ok(fs.existsSync(path.resolve(defaultDist, 'swagger-json.js')))
     t.ok(fs.readFileSync(defaultIndex, 'utf8').includes(ui))
+    fs.removeSync(defaultDist)
+  })
+})
+
+tape.test('swaggergen --no-try-out creates a new dist and exits with code 0', function (t) {
+  t.plan(5)
+  var cmd = 'node ' + swaggergen + ' ' + swaggerJSON
+  console.log(cmd)
+  var child = spawn('node', [swaggergen, swaggerJSON, '--no-try-out'], {cwd: __dirname})
+  child.on('close', function (code) {
+    t.equal(code, 0)
+    t.ok(fs.existsSync(defaultDist))
+    t.ok(fs.existsSync(path.resolve(defaultDist, 'swagger-json.js')))
+    var index = fs.readFileSync(defaultIndex, 'utf8')
+    t.ok(index.includes(ui))
+    t.ok(index.includes(noTryMarkup))
     fs.removeSync(defaultDist)
   })
 })
