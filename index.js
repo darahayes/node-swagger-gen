@@ -62,7 +62,7 @@ function buildDist (srcDist, dest, swaggerFile, opts) {
   var swaggerJSONScript = 'var swaggerJSON = ' + JSON.stringify(swaggerFile)
   var currentHTML = fs.readFileSync(path.resolve(dest, 'index.html'), 'utf8')
   var replacementHTML = fs.readFileSync(path.resolve(__dirname, 'html', 'ui.html'), 'utf8')
-  var newHTML = currentHTML.replace(/(<script>\nwindow.onload = function\(\) \{[.\s\S]*<\/script>)/, replacementHTML)
+  var newHTML = currentHTML.replace(/(<script>\n\s+window\.onload = function\(\) \{[.\s\S]*<\/script>)/, replacementHTML)
 
   if (!opts.tryOut) {
     var meta = newHTML.match(/<head>([\s\S]*)<\/head>/)[1]
